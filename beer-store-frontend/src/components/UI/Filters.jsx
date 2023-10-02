@@ -1,7 +1,8 @@
-// import { useEffect, useState } from 'react';
-// import {useDispatch, useSelector} from 'react-redux';
-// import { getBrands } from '../../store/brandsSliceR';
-// import { brandsFilter } from '../../store/filterBrandsSliceR';
+import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux/es/hooks/useSelector';
+import {useDispatch} from 'react-redux';
+import { getBrands } from '../../store/searchSlice';
+import { brandsFilter } from '../../store/filterBrandsSliceR';
 
 // export default function Filters() {
 // const dispatch = useDispatch();
@@ -39,22 +40,59 @@
 
 
 export default function Filters() {
+const dispatch = useDispatch();
+
+const [input, setInput] =useState('');
+
+const {list: brands} = useSelector((state)=> state.brands);
+//const brands = []
+
+useEffect(()=>{
+    dispatch(getBrands());
+},[dispatch])
+
+const handleBrandsFilter = (evento)=>{
+    const selectedValue = evento.target.value;
+    setInput(selectedValue);
+    if(evento.target.value === 'default'){
+        dispatch(getBrands());
+    }else{
+        dispatch(brandsFilter(selectedValue));
+    }}
+    
+
+
       return (
     <div>      
-        <div>
-        <select>
+        <select onChange={handleBrandsFilter} value={input}>
             <option disabled>Filter By Brands</option>
-            <option value="Antares">Antares</option>
+            { brands.map((brand, index)=>(
+                <option key={index}  value={brand.name}>
+                    {brand.name}
+                </option>
+            ))}
+            
+            {/* <option value="Antares">Antares</option>
             <option value="Patagonia">Patagonia</option>
             <option value="Corona">Corona</option>
             <option value="Brahma">Brahma</option>
-            <option value="Quilmes">Quilmes</option>            
+            <option value="Quilmes">Quilmes</option> */}
+            
         </select>
 
         <select>
             <option disabled>Order by Alphabetic</option>
             <option value="A-Z">A-Z</option>
             <option value="Z-A">Z-A</option>
+        </select>
+
+        <select>
+         <option disabled></option> 
+         <option value="ANTARES">ANTARES</option>
+         <option value="Patagonia">Patagonia</option>
+         <option value="Corona">Corona</option>
+         <option value="Quilmes">Quilmes</option>
+         <option value="Brahma">Brahma</option>         
         </select>
 
         <select>
@@ -73,7 +111,6 @@ export default function Filters() {
             <option value="KOLSCH">KOLSCH</option> 
             <option value="HIBRIDA">HIBRIDA</option>  
         </select>
-    </div>
     </div>
   )
 }

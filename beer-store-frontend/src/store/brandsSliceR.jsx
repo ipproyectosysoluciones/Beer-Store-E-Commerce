@@ -59,26 +59,29 @@
 // }));
 ///////////////////////
 
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios from "axios";
 
-const urlBeers = "http://localhost:1337/";
+//1)ultima version 
 
-export const getBrands = createAsyncThunk(
-  'api/brands',
-  async() => {
-    try {
-      const responsee = await axios.get(urlBeers,{
-        headers:{
-          Accept: 'application/json',
-        },
-      });
+// import { createAsyncThunk } from '@reduxjs/toolkit';
+// import axios from "axios";
 
-      return responsee.data
+// const urlBeers = "http://localhost:1337/";
+
+// export const getBrands = createAsyncThunk(
+//   'api/brands',
+//   async() => {
+//     try {
+//       const responsee = await axios.get(urlBeers,{
+//         headers:{
+//           Accept: 'application/json',
+//         },
+//       });
+
+//       return responsee.data
       
-    } catch (error) {
-      throw new Error (error.response.data.message)      
-    }
-  }
-);
+//     } catch (error) {
+//       throw new Error (error.response.data.message)      
+//     }
+//   }
+// );
 
